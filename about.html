@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — AIToolsReview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#0a0a0a;--white:#f5f5f0;--accent:#00e5a0;--gray:#1a1a1a;--gray3:#888;--text:#d0d0c8;--border:#222;--card-bg:#111;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.8;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--white);text-decoration:none;}
+    .nav-logo span{color:var(--accent);}
+    .content{max-width:720px;margin:0 auto;padding:80px 40px;}
+    .tag{display:inline-block;background:rgba(0,229,160,.1);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:100px;border:1px solid rgba(0,229,160,.2);margin-bottom:24px;}
+    h1{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;color:var(--white);line-height:1.1;margin-bottom:24px;}
+    h1 em{color:var(--accent);font-style:normal;}
+    p{margin-bottom:20px;font-size:16px;}
+    .mission{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:32px;margin:40px 0;}
+    .mission h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--white);margin-bottom:16px;}
+    footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;font-size:13px;color:var(--gray3);}
+  </style>
+</head>
+<body>
+<nav><a class="nav-logo" href="/">AI<span>Tools</span>Review</a></nav>
+<div class="content">
+  <div class="tag">About us</div>
+  <h1>We test AI tools so <em>you don't have to</em></h1>
+  <p>AIToolsReview is an independent publication covering the best AI tools for writing, coding, image generation, productivity, video, and finance.</p>
+  <p>There are hundreds of AI tools launching every week. Most aren't worth your time. We cut through the noise with honest, practical reviews that tell you what actually works — and what doesn't.</p>
+  <div class="mission">
+    <h2>Our editorial standards</h2>
+    <p>Every review on this site is written to be accurate, honest, and useful. We flag information that may change frequently. We note limitations alongside benefits. We don't accept payment for positive reviews.</p>
+    <p>This site displays advertising through Google AdSense and may contain affiliate links. These do not influence our editorial opinions.</p>
+  </div>
+  <p>Have a question or want to suggest a tool we should review? <a href="/contact.html" style="color:var(--accent)">Get in touch</a>.</p>
+</div>
+<footer>© <span id="year"></span> AIToolsReview</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body>
+</html>

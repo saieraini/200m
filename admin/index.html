@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — AIToolsReview</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a; --white: #f5f5f0; --accent: #00e5a0;
+      --accent2: #ff6b35; --gray: #1a1a1a; --gray2: #2a2a2a;
+      --gray3: #888; --card-bg: #111; --border: #222; --text: #d0d0c8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+    /* LOGIN */
+    #loginScreen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    }
+    .login-box {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px; width: 380px; text-align: center;
+    }
+    .login-logo {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .login-logo span { color: var(--accent); }
+    .login-sub { color: var(--gray3); font-size: 14px; margin-bottom: 32px; }
+    .field { margin-bottom: 16px; text-align: left; }
+    .field label { font-size: 12px; color: var(--gray3); font-weight: 500; letter-spacing: .05em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+    .field input {
+      width: 100%; background: var(--gray); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px;
+      outline: none; transition: border-color .2s;
+    }
+    .field input:focus { border-color: var(--accent); }
+    .btn-primary {
+      width: 100%; background: var(--accent); color: var(--black);
+      border: none; border-radius: 10px; padding: 14px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px;
+      cursor: pointer; margin-top: 8px; transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .login-hint { font-size: 12px; color: #444; margin-top: 16px; }
+
+    /* ADMIN LAYOUT */
+    #adminScreen { display: none; }
+    .admin-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 32px; border-bottom: 1px solid var(--border);
+      background: rgba(10,10,10,0.98); position: sticky; top: 0; z-index: 100;
+    }
+    .admin-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: var(--white); }
+    .admin-logo span { color: var(--accent); }
+    .nav-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-sm {
+      padding: 8px 16px; border-radius: 8px; font-size: 13px;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      cursor: pointer; border: 1px solid var(--border);
+      background: var(--gray); color: var(--text); transition: all .2s;
+    }
+    .btn-sm:hover { border-color: #444; color: var(--white); }
+    .btn-sm.green { background: var(--accent); color: var(--black); border-color: var(--accent); font-weight: 600; }
+    .btn-sm.green:hover { opacity: .85; }
+    .btn-sm.red { background: transparent; color: #ff4444; border-color: #ff4444; }
+
+    .admin-body { display: grid; grid-template-columns: 340px 1fr; min-height: calc(100vh - 61px); }
+
+    /* SIDEBAR */
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 24px; overflow-y: auto;
+    }
+    .sidebar-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray3); margin-bottom: 16px; }
+    .article-list { display: flex; flex-direction: column; gap: 8px; }
+    .article-item {
+      background: var(--gray); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px; cursor: pointer;
+      transition: border-color .2s;
+    }
+    .article-item:hover, .article-item.active { border-color: var(--accent); }
+    .article-item-title { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 4px; line-height: 1.3; }
+    .article-item-meta { font-size: 11px; color: var(--gray3); }
+    .empty-sidebar { text-align: center; padding: 40px 0; color: #444; font-size: 13px; }
+
+    /* EDITOR */
+    .editor { padding: 32px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
+    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .editor-title-main { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--white); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 11px; color: var(--gray3); font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--gray); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px;
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px;
+      outline: none; transition: border-color .2s; resize: vertical;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group select option { background: var(--gray); }
+    .content-area { min-height: 360px; }
+
+    /* PASTE ZONE */
+    .paste-zone {
+      background: var(--gray); border: 2px dashed var(--border);
+      border-radius: 12px; padding: 20px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      color: var(--text); line-height: 1.7; white-space: pre-wrap;
+      min-height: 280px; outline: none;
+      transition: border-color .2s;
+    }
+    .paste-zone:focus { border-color: var(--accent); border-style: solid; }
+    .paste-zone:empty::before { content: attr(data-placeholder); color: #444; }
+
+    .char-count { font-size: 11px; color: #444; text-align: right; }
+    .status-bar {
+      background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.2);
+      border-radius: 8px; padding: 10px 16px;
+      font-size: 13px; color: var(--accent); display: none;
+    }
+    .status-bar.error { background: rgba(255,68,68,0.08); border-color: rgba(255,68,68,0.2); color: #ff6666; }
+
+    .seo-preview {
+      background: var(--gray); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px;
+    }
+    .seo-preview-label { font-size: 11px; color: var(--gray3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 12px; font-weight: 600; }
+    .seo-url { font-size: 13px; color: #4caf50; margin-bottom: 4px; }
+    .seo-title-preview { font-size: 18px; color: #8ab4f8; margin-bottom: 4px; }
+    .seo-desc-preview { font-size: 13px; color: #bdc1c6; line-height: 1.5; }
+
+    @media (max-width: 800px) {
+      .admin-body { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); max-height: 220px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">AI<span>Tools</span>Review</div>
+    <div class="login-sub">Admin panel — enter your password to continue</div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="passwordInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <button class="btn-primary" onclick="login()">Sign in</button>
+    <div class="login-hint">Default password: <strong>admin123</strong> — change it in settings</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminScreen">
+  <nav class="admin-nav">
+    <div class="admin-logo">AI<span>Tools</span>Review — Admin</div>
+    <div class="nav-actions">
+      <a href="/" target="_blank"><button class="btn-sm">View site ↗</button></a>
+      <button class="btn-sm" onclick="newArticle()">+ New article</button>
+      <button class="btn-sm red" onclick="logout()">Sign out</button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-title">Published articles (<span id="articleCount">0</span>)</div>
+      <div class="article-list" id="articleList">
+        <div class="empty-sidebar">No articles yet.<br>Click "+ New article" to start.</div>
+      </div>
+    </div>
+
+    <!-- Editor -->
+    <div class="editor">
+      <div class="editor-header">
+        <div class="editor-title-main" id="editorHeading">New Article</div>
+        <div style="display:flex;gap:10px">
+          <button class="btn-sm red" id="deleteBtn" onclick="deleteArticle()" style="display:none">Delete</button>
+          <button class="btn-sm green" onclick="saveArticle()">Publish →</button>
+        </div>
+      </div>
+
+      <div id="statusBar" class="status-bar"></div>
+
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1">
+          <label>Article title *</label>
+          <input type="text" id="title" placeholder="e.g. Best AI Writing Tools in 2025: Honest Comparison" oninput="updateSlugAndPreview()">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="category">
+            <option value="writing">✍️ Writing</option>
+            <option value="coding">💻 Coding</option>
+            <option value="image">🎨 Image</option>
+            <option value="productivity">⚡ Productivity</option>
+            <option value="video">🎬 Video</option>
+            <option value="finance">💰 Finance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Focus keyword</label>
+          <input type="text" id="keyword" placeholder="e.g. AI writing tools">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Short excerpt (shown on homepage) *</label>
+        <textarea id="excerpt" rows="2" placeholder="One or two sentences summarising what the article covers."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Meta description (for Google, max 155 chars)</label>
+        <textarea id="metaDesc" rows="2" placeholder="Describe the article for search engines." oninput="updatePreview()"></textarea>
+        <div class="char-count" id="metaCount">0 / 155</div>
+      </div>
+
+      <div class="form-group content-area">
+        <label>Article content — paste AI-generated article here *</label>
+        <div class="paste-zone" id="content" contenteditable="true"
+          data-placeholder="Paste your full article here. Plain text or basic HTML both work."></div>
+      </div>
+
+      <div class="seo-preview">
+        <div class="seo-preview-label">Google search preview</div>
+        <div class="seo-url" id="previewUrl">yourdomain.com/articles/article-slug</div>
+        <div class="seo-title-preview" id="previewTitle">Your article title will appear here</div>
+        <div class="seo-desc-preview" id="previewDesc">Your meta description will appear here.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// --- Auth ---
+const ADMIN_PASS = localStorage.getItem('aitr_pass') || 'admin123';
+
+function login() {
+  const pw = document.getElementById('passwordInput').value;
+  if (pw === ADMIN_PASS) {
+    sessionStorage.setItem('aitr_auth', '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    loadSidebar();
+  } else {
+    document.getElementById('passwordInput').style.borderColor = '#ff4444';
+    setTimeout(() => document.getElementById('passwordInput').style.borderColor = '', 1000);
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('aitr_auth');
+  location.reload();
+}
+
+if (sessionStorage.getItem('aitr_auth')) {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminScreen').style.display = 'block';
+  loadSidebar();
+}
+
+// --- Articles ---
+let articles = [];
+let editingId = null;
+
+function getArticles() {
+  try { return JSON.parse(localStorage.getItem('aitr_articles') || '[]'); } catch { return []; }
+}
+
+function saveArticles(arr) {
+  localStorage.setItem('aitr_articles', JSON.stringify(arr));
+}
+
+function loadSidebar() {
+  articles = getArticles();
+  document.getElementById('articleCount').textContent = articles.length;
+  const list = document.getElementById('articleList');
+  if (!articles.length) {
+    list.innerHTML = '<div class="empty-sidebar">No articles yet.<br>Click "+ New article" to start.</div>';
+    return;
+  }
+  list.innerHTML = articles.map(a => `
+    <div class="article-item" id="item-${a.id}" onclick="editArticle('${a.id}')">
+      <div class="article-item-title">${a.title}</div>
+      <div class="article-item-meta">${categoryLabel(a.category)} · ${a.date}</div>
+    </div>
+  `).join('');
+}
+
+function categoryLabel(cat) {
+  const m = { writing:'✍️ Writing', coding:'💻 Coding', image:'🎨 Image', productivity:'⚡ Productivity', video:'🎬 Video', finance:'💰 Finance' };
+  return m[cat] || cat;
+}
+
+function newArticle() {
+  editingId = null;
+  document.getElementById('editorHeading').textContent = 'New Article';
+  document.getElementById('deleteBtn').style.display = 'none';
+  ['title','keyword','excerpt','metaDesc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('content').textContent = '';
+  document.getElementById('category').value = 'writing';
+  updateSlugAndPreview();
+  document.querySelectorAll('.article-item').forEach(el => el.classList.remove('active'));
+}
+
+function editArticle(id) {
+  articles = getArticles();
+  const a = articles.find(x => x.id === id);
+  if (!a) return;
+  editingId = id;
+  document.getElementById('editorHeading').textContent = 'Edit Article';
+  document.getElementById('deleteBtn').style.display = '';
+  document.getElementById('title').value = a.title;
+  document.getElementById('category').value = a.category;
+  document.getElementById('keyword').value = a.keyword || '';
+  document.getElementById('excerpt').value = a.excerpt;
+  document.getElementById('metaDesc').value = a.metaDesc || '';
+  document.getElementById('content').textContent = a.content;
+  updateSlugAndPreview();
+  document.querySelectorAll('.article-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('item-' + id)?.classList.add('active');
+}
+
+function saveArticle() {
+  const title = document.getElementById('title').value.trim();
+  const excerpt = document.getElementById('excerpt').value.trim();
+  const content = document.getElementById('content').textContent.trim();
+  if (!title || !excerpt || !content) {
+    showStatus('Please fill in title, excerpt, and content.', true); return;
+  }
+  articles = getArticles();
+  const now = new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+  const slug = toSlug(title);
+  const article = {
+    id: editingId || Date.now().toString(),
+    title, slug,
+    category: document.getElementById('category').value,
+    keyword: document.getElementById('keyword').value.trim(),
+    excerpt,
+    metaDesc: document.getElementById('metaDesc').value.trim(),
+    content,
+    date: editingId ? (articles.find(a=>a.id===editingId)?.date || now) : now,
+    updated: now
+  };
+  if (editingId) {
+    const idx = articles.findIndex(a => a.id === editingId);
+    articles[idx] = article;
+  } else {
+    articles.unshift(article);
+    editingId = article.id;
+  }
+  saveArticles(articles);
+  loadSidebar();
+  showStatus(`✓ Article published: "${title}"`);
+  document.getElementById('deleteBtn').style.display = '';
+  document.getElementById('editorHeading').textContent = 'Edit Article';
+}
+
+function deleteArticle() {
+  if (!editingId) return;
+  if (!confirm('Delete this article? This cannot be undone.')) return;
+  articles = getArticles().filter(a => a.id !== editingId);
+  saveArticles(articles);
+  newArticle();
+  loadSidebar();
+  showStatus('Article deleted.');
+}
+
+function showStatus(msg, isError=false) {
+  const bar = document.getElementById('statusBar');
+  bar.textContent = msg;
+  bar.className = 'status-bar' + (isError ? ' error' : '');
+  bar.style.display = 'block';
+  setTimeout(() => bar.style.display = 'none', 4000);
+}
+
+function toSlug(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function updateSlugAndPreview() {
+  updatePreview();
+}
+
+function updatePreview() {
+  const title = document.getElementById('title').value.trim() || 'Your article title';
+  const desc = document.getElementById('metaDesc').value.trim() || 'Your meta description will appear here.';
+  const slug = toSlug(title) || 'article-slug';
+  document.getElementById('previewUrl').textContent = 'yourdomain.com/articles/' + slug;
+  document.getElementById('previewTitle').textContent = title.length > 60 ? title.slice(0,57)+'...' : title;
+  document.getElementById('previewDesc').textContent = desc.length > 155 ? desc.slice(0,152)+'...' : desc;
+  document.getElementById('metaCount').textContent = document.getElementById('metaDesc').value.length + ' / 155';
+}
+
+document.getElementById('metaDesc')?.addEventListener('input', updatePreview);
+document.getElementById('title')?.addEventListener('input', updatePreview);
+</script>
+</body>
+</html>

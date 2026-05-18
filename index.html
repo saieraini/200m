@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Tools Review — Find the Best AI Tools for Every Job</title>
+  <meta name="description" content="Honest, in-depth reviews and comparisons of the best AI tools. Find the right AI tool for writing, coding, design, productivity, and more.">
+  <link rel="canonical" href="https://yourdomain.com/">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f5f0;
+      --accent: #00e5a0;
+      --accent2: #ff6b35;
+      --gray: #1a1a1a;
+      --gray2: #2a2a2a;
+      --gray3: #888;
+      --text: #d0d0c8;
+      --card-bg: #111111;
+      --border: #222;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 20px;
+      color: var(--white);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--gray3); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* HERO */
+    .hero {
+      padding: 100px 40px 80px;
+      max-width: 900px; margin: 0 auto;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(0,229,160,0.1);
+      color: var(--accent);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px;
+      border: 1px solid rgba(0,229,160,0.2);
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -.02em;
+    }
+    h1 em { color: var(--accent); font-style: normal; }
+    .hero p {
+      font-size: 18px; color: var(--gray3);
+      max-width: 560px; margin: 0 auto 40px;
+      font-weight: 300;
+    }
+    .search-bar {
+      display: flex; max-width: 480px; margin: 0 auto;
+      background: var(--gray);
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .search-bar input {
+      flex: 1; background: none; border: none; outline: none;
+      padding: 14px 20px;
+      color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+    }
+    .search-bar input::placeholder { color: var(--gray3); }
+    .search-bar button {
+      background: var(--accent); color: var(--black);
+      border: none; cursor: pointer;
+      padding: 14px 22px;
+      font-weight: 600; font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity .2s;
+    }
+    .search-bar button:hover { opacity: .85; }
+
+    /* CATEGORIES */
+    .section { padding: 60px 40px; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      color: var(--white); margin-bottom: 32px;
+    }
+    .categories {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 48px;
+    }
+    .cat-pill {
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--gray3);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all .2s;
+      text-decoration: none;
+    }
+    .cat-pill:hover, .cat-pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,229,160,0.06);
+    }
+
+    /* ARTICLE GRID */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .article-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      text-decoration: none;
+      display: block;
+      transition: border-color .2s, transform .2s;
+      position: relative; overflow: hidden;
+    }
+    .article-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0; transition: opacity .2s;
+    }
+    .article-card:hover { border-color: #333; transform: translateY(-2px); }
+    .article-card:hover::before { opacity: 1; }
+    .card-cat {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--white); line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .card-excerpt {
+      font-size: 14px; color: var(--gray3);
+      line-height: 1.6; margin-bottom: 20px;
+    }
+    .card-meta {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      font-size: 12px; color: #555;
+    }
+    .card-read { color: var(--accent2); font-weight: 500; font-size: 13px; }
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center; padding: 60px 20px;
+      color: var(--gray3);
+    }
+    .empty-state h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem; color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    /* AD SLOTS */
+    .ad-slot {
+      background: var(--card-bg);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      text-align: center; padding: 40px;
+      color: #444; font-size: 13px;
+      margin: 40px 0;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 16px; color: var(--white);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a {
+      color: var(--gray3); text-decoration: none;
+      font-size: 13px; transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 12px; color: #444; width: 100%; text-align: center; margin-top: 8px; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px 40px; }
+      .section { padding: 40px 20px; }
+      footer { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">AI<span>Tools</span>Review</a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="#articles">Reviews</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">Updated weekly</div>
+  <h1>Find the best <em>AI tools</em> for every job</h1>
+  <p>Honest reviews and comparisons — no hype, just what actually works.</p>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search reviews... e.g. AI writing tools" oninput="filterArticles()">
+    <button onclick="filterArticles()">Search</button>
+  </div>
+</section>
+
+<div class="section">
+  <!-- Ad slot - replace with your AdSense code -->
+  <div class="ad-slot">📢 Ad space — place your Google AdSense code here</div>
+
+  <div class="section-label">Browse by category</div>
+  <div class="section-title" id="articles">All Reviews</div>
+
+  <div class="categories" id="categoryFilters">
+    <a class="cat-pill active" onclick="filterByCategory('all', this)">All</a>
+    <a class="cat-pill" onclick="filterByCategory('writing', this)">✍️ Writing</a>
+    <a class="cat-pill" onclick="filterByCategory('coding', this)">💻 Coding</a>
+    <a class="cat-pill" onclick="filterByCategory('image', this)">🎨 Image</a>
+    <a class="cat-pill" onclick="filterByCategory('productivity', this)">⚡ Productivity</a>
+    <a class="cat-pill" onclick="filterByCategory('video', this)">🎬 Video</a>
+    <a class="cat-pill" onclick="filterByCategory('finance', this)">💰 Finance</a>
+  </div>
+
+  <div class="articles-grid" id="articlesGrid">
+    <div class="empty-state">
+      <h3>No articles yet</h3>
+      <p>Go to <strong>/admin</strong> to publish your first article.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">AI<span>Tools</span>Review</div>
+  <div class="footer-links">
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </div>
+  <div class="footer-copy">© <span id="year"></span> AIToolsReview. This site is for informational purposes only and does not constitute financial advice.</div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+let allArticles = [];
+let currentCategory = 'all';
+
+function loadArticles() {
+  try {
+    allArticles = JSON.parse(localStorage.getItem('aitr_articles') || '[]');
+  } catch(e) { allArticles = []; }
+  renderArticles(allArticles);
+}
+
+function filterByCategory(cat, el) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  filterArticles();
+}
+
+function filterArticles() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = allArticles;
+  if (currentCategory !== 'all') filtered = filtered.filter(a => a.category === currentCategory);
+  if (q) filtered = filtered.filter(a => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q));
+  renderArticles(filtered);
+}
+
+function renderArticles(articles) {
+  const grid = document.getElementById('articlesGrid');
+  if (!articles.length) {
+    grid.innerHTML = `<div class="empty-state"><h3>No articles yet</h3><p>Go to <strong>/admin</strong> to publish your first article.</p></div>`;
+    return;
+  }
+  grid.innerHTML = articles.map(a => `
+    <a class="article-card" href="/articles/${a.slug}.html">
+      <div class="card-cat">${categoryLabel(a.category)}</div>
+      <div class="card-title">${a.title}</div>
+      <div class="card-excerpt">${a.excerpt}</div>
+      <div class="card-meta">
+        <span>${a.date}</span>
+        <span class="card-read">Read review →</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+function categoryLabel(cat) {
+  const map = { writing:'✍️ Writing', coding:'💻 Coding', image:'🎨 Image', productivity:'⚡ Productivity', video:'🎬 Video', finance:'💰 Finance' };
+  return map[cat] || cat;
+}
+
+loadArticles();
+</script>
+</body>
+</html>
