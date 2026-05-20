@@ -7,194 +7,110 @@
   <meta name="robots" content="noindex, nofollow">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --black: #0a0a0a; --white: #f5f5f0; --accent: #00e5a0;
-      --accent2: #ff6b35; --gray: #1a1a1a; --gray2: #2a2a2a;
-      --gray3: #888; --card-bg: #111; --border: #222; --text: #d0d0c8;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-
-    /* LOGIN */
-    #loginScreen {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    }
-    .login-box {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 20px; padding: 48px; width: 380px; text-align: center;
-    }
-    .login-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
-      color: var(--white); margin-bottom: 8px;
-    }
-    .login-logo span { color: var(--accent); }
-    .login-sub { color: var(--gray3); font-size: 14px; margin-bottom: 32px; }
-    .field { margin-bottom: 16px; text-align: left; }
-    .field label { font-size: 12px; color: var(--gray3); font-weight: 500; letter-spacing: .05em; text-transform: uppercase; display: block; margin-bottom: 6px; }
-    .field input {
-      width: 100%; background: var(--gray); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 16px;
-      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px;
-      outline: none; transition: border-color .2s;
-    }
-    .field input:focus { border-color: var(--accent); }
-    .btn-primary {
-      width: 100%; background: var(--accent); color: var(--black);
-      border: none; border-radius: 10px; padding: 14px;
-      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px;
-      cursor: pointer; margin-top: 8px; transition: opacity .2s;
-    }
-    .btn-primary:hover { opacity: .85; }
-    .login-hint { font-size: 12px; color: #444; margin-top: 16px; }
-
-    /* ADMIN LAYOUT */
-    #adminScreen { display: none; }
-    .admin-nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 32px; border-bottom: 1px solid var(--border);
-      background: rgba(10,10,10,0.98); position: sticky; top: 0; z-index: 100;
-    }
-    .admin-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: var(--white); }
-    .admin-logo span { color: var(--accent); }
-    .nav-actions { display: flex; gap: 12px; align-items: center; }
-    .btn-sm {
-      padding: 8px 16px; border-radius: 8px; font-size: 13px;
-      font-family: 'DM Sans', sans-serif; font-weight: 500;
-      cursor: pointer; border: 1px solid var(--border);
-      background: var(--gray); color: var(--text); transition: all .2s;
-    }
-    .btn-sm:hover { border-color: #444; color: var(--white); }
-    .btn-sm.green { background: var(--accent); color: var(--black); border-color: var(--accent); font-weight: 600; }
-    .btn-sm.green:hover { opacity: .85; }
-    .btn-sm.red { background: transparent; color: #ff4444; border-color: #ff4444; }
-
-    .admin-body { display: grid; grid-template-columns: 340px 1fr; min-height: calc(100vh - 61px); }
-
-    /* SIDEBAR */
-    .sidebar {
-      border-right: 1px solid var(--border);
-      padding: 24px; overflow-y: auto;
-    }
-    .sidebar-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray3); margin-bottom: 16px; }
-    .article-list { display: flex; flex-direction: column; gap: 8px; }
-    .article-item {
-      background: var(--gray); border: 1px solid var(--border);
-      border-radius: 10px; padding: 14px; cursor: pointer;
-      transition: border-color .2s;
-    }
-    .article-item:hover, .article-item.active { border-color: var(--accent); }
-    .article-item-title { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 4px; line-height: 1.3; }
-    .article-item-meta { font-size: 11px; color: var(--gray3); }
-    .empty-sidebar { text-align: center; padding: 40px 0; color: #444; font-size: 13px; }
-
-    /* EDITOR */
-    .editor { padding: 32px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
-    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-    .editor-title-main { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--white); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group label { font-size: 11px; color: var(--gray3); font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
-    .form-group input, .form-group select, .form-group textarea {
-      background: var(--gray); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 14px;
-      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px;
-      outline: none; transition: border-color .2s; resize: vertical;
-    }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
-    .form-group select option { background: var(--gray); }
-    .content-area { min-height: 360px; }
-
-    /* PASTE ZONE */
-    .paste-zone {
-      background: var(--gray); border: 2px dashed var(--border);
-      border-radius: 12px; padding: 20px;
-      font-family: 'DM Sans', sans-serif; font-size: 14px;
-      color: var(--text); line-height: 1.7; white-space: pre-wrap;
-      min-height: 280px; outline: none;
-      transition: border-color .2s;
-    }
-    .paste-zone:focus { border-color: var(--accent); border-style: solid; }
-    .paste-zone:empty::before { content: attr(data-placeholder); color: #444; }
-
-    .char-count { font-size: 11px; color: #444; text-align: right; }
-    .status-bar {
-      background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.2);
-      border-radius: 8px; padding: 10px 16px;
-      font-size: 13px; color: var(--accent); display: none;
-    }
-    .status-bar.error { background: rgba(255,68,68,0.08); border-color: rgba(255,68,68,0.2); color: #ff6666; }
-
-    .seo-preview {
-      background: var(--gray); border: 1px solid var(--border);
-      border-radius: 12px; padding: 18px;
-    }
-    .seo-preview-label { font-size: 11px; color: var(--gray3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 12px; font-weight: 600; }
-    .seo-url { font-size: 13px; color: #4caf50; margin-bottom: 4px; }
-    .seo-title-preview { font-size: 18px; color: #8ab4f8; margin-bottom: 4px; }
-    .seo-desc-preview { font-size: 13px; color: #bdc1c6; line-height: 1.5; }
-
-    @media (max-width: 800px) {
-      .admin-body { grid-template-columns: 1fr; }
-      .sidebar { border-right: none; border-bottom: 1px solid var(--border); max-height: 220px; }
-      .form-row { grid-template-columns: 1fr; }
-    }
+    :root{--black:#0a0a0a;--white:#f5f5f0;--accent:#00e5a0;--gray:#1a1a1a;--gray3:#888;--card-bg:#111;--border:#222;--text:#d0d0c8;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+    #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+    .login-box{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:48px;width:420px;text-align:center;}
+    .login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--white);margin-bottom:8px;}
+    .login-logo span{color:var(--accent);}
+    .login-sub{color:var(--gray3);font-size:14px;margin-bottom:32px;line-height:1.5;}
+    .field{margin-bottom:16px;text-align:left;}
+    .field label{font-size:11px;color:var(--gray3);font-weight:500;letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:6px;}
+    .field input{width:100%;background:var(--gray);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+    .field input:focus{border-color:var(--accent);}
+    .btn-primary{width:100%;background:var(--accent);color:var(--black);border:none;border-radius:10px;padding:14px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:15px;cursor:pointer;margin-top:8px;transition:opacity .2s;}
+    .btn-primary:hover{opacity:.85;}
+    .login-hint{font-size:12px;color:#444;margin-top:16px;line-height:1.6;}
+    #adminScreen{display:none;}
+    .admin-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);background:rgba(10,10,10,.98);position:sticky;top:0;z-index:100;}
+    .admin-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--white);}
+    .admin-logo span{color:var(--accent);}
+    .nav-actions{display:flex;gap:12px;align-items:center;}
+    .btn-sm{padding:8px 16px;border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--gray);color:var(--text);transition:all .2s;}
+    .btn-sm:hover{border-color:#444;color:var(--white);}
+    .btn-sm.green{background:var(--accent);color:var(--black);border-color:var(--accent);font-weight:600;}
+    .btn-sm.green:hover{opacity:.85;}
+    .btn-sm.red{background:transparent;color:#ff4444;border-color:#ff4444;}
+    .btn-sm:disabled{opacity:.4;cursor:not-allowed;}
+    .admin-body{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 61px);}
+    .sidebar{border-right:1px solid var(--border);padding:20px;overflow-y:auto;}
+    .sidebar-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray3);margin-bottom:16px;}
+    .article-list{display:flex;flex-direction:column;gap:8px;}
+    .article-item{background:var(--gray);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:border-color .2s;}
+    .article-item:hover,.article-item.active{border-color:var(--accent);}
+    .article-item-title{font-size:13px;font-weight:500;color:var(--white);margin-bottom:3px;line-height:1.3;}
+    .article-item-meta{font-size:11px;color:var(--gray3);}
+    .empty-sidebar{text-align:center;padding:40px 0;color:#444;font-size:13px;}
+    .editor{padding:28px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+    .editor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+    .editor-title-main{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    .form-group label{font-size:11px;color:var(--gray3);font-weight:600;letter-spacing:.07em;text-transform:uppercase;}
+    .form-group input,.form-group select,.form-group textarea{background:var(--gray);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;resize:vertical;}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
+    .form-group select option{background:var(--gray);}
+    .paste-zone{background:var(--gray);border:2px dashed var(--border);border-radius:12px;padding:16px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);line-height:1.7;white-space:pre-wrap;min-height:260px;outline:none;transition:border-color .2s;}
+    .paste-zone:focus{border-color:var(--accent);border-style:solid;}
+    .paste-zone:empty::before{content:attr(data-placeholder);color:#444;}
+    .char-count{font-size:11px;color:#444;text-align:right;}
+    .status-bar{border-radius:8px;padding:10px 16px;font-size:13px;display:none;line-height:1.5;}
+    .status-bar.success{background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);color:var(--accent);}
+    .status-bar.error{background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.2);color:#ff6666;}
+    .status-bar.loading{background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.2);color:orange;}
+    .seo-preview{background:var(--gray);border:1px solid var(--border);border-radius:12px;padding:16px;}
+    .seo-label{font-size:11px;color:var(--gray3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;font-weight:600;}
+    .seo-url{font-size:13px;color:#4caf50;margin-bottom:4px;}
+    .seo-title{font-size:17px;color:#8ab4f8;margin-bottom:4px;}
+    .seo-desc{font-size:13px;color:#bdc1c6;line-height:1.5;}
+    @media(max-width:800px){.admin-body{grid-template-columns:1fr;}.sidebar{border-right:none;border-bottom:1px solid var(--border);max-height:200px;}.form-row{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">AI<span>Tools</span>Review</div>
-    <div class="login-sub">Admin panel — enter your password to continue</div>
+    <div class="login-sub">Sign in with your GitHub token.<br>Articles will publish directly to your repo.</div>
     <div class="field">
-      <label>Password</label>
-      <input type="password" id="passwordInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" onkeydown="if(event.key==='Enter')login()">
     </div>
     <button class="btn-primary" onclick="login()">Sign in</button>
-    <div class="login-hint">Default password: <strong>admin321</strong> — change it in settings</div>
+    <div class="login-hint">Your token is only stored in this browser session and only used to talk to GitHub's API.</div>
   </div>
 </div>
 
-<!-- ADMIN -->
 <div id="adminScreen">
   <nav class="admin-nav">
     <div class="admin-logo">AI<span>Tools</span>Review — Admin</div>
     <div class="nav-actions">
-      <a href="/" target="_blank"><button class="btn-sm">View site ↗</button></a>
+      <a href="/200m/" target="_blank"><button class="btn-sm">View site ↗</button></a>
       <button class="btn-sm" onclick="newArticle()">+ New article</button>
       <button class="btn-sm red" onclick="logout()">Sign out</button>
     </div>
   </nav>
-
   <div class="admin-body">
-    <!-- Sidebar -->
     <div class="sidebar">
-      <div class="sidebar-title">Published articles (<span id="articleCount">0</span>)</div>
-      <div class="article-list" id="articleList">
-        <div class="empty-sidebar">No articles yet.<br>Click "+ New article" to start.</div>
-      </div>
+      <div class="sidebar-title">Articles (<span id="articleCount">0</span>)</div>
+      <div class="article-list" id="articleList"><div class="empty-sidebar">Loading...</div></div>
     </div>
-
-    <!-- Editor -->
     <div class="editor">
       <div class="editor-header">
         <div class="editor-title-main" id="editorHeading">New Article</div>
-        <div style="display:flex;gap:10px">
-          <button class="btn-sm red" id="deleteBtn" onclick="deleteArticle()" style="display:none">Delete</button>
-          <button class="btn-sm green" onclick="saveArticle()">Publish →</button>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-sm red" id="deleteBtn" onclick="deleteArticle()" style="display:none;">Delete</button>
+          <button class="btn-sm green" id="publishBtn" onclick="saveArticle()">Publish →</button>
         </div>
       </div>
-
       <div id="statusBar" class="status-bar"></div>
-
       <div class="form-row">
-        <div class="form-group" style="grid-column:1/-1">
+        <div class="form-group" style="grid-column:1/-1;">
           <label>Article title *</label>
-          <input type="text" id="title" placeholder="e.g. Best AI Writing Tools in 2025: Honest Comparison" oninput="updateSlugAndPreview()">
+          <input type="text" id="title" placeholder="e.g. Best AI Writing Tools: Honest Comparison" oninput="updatePreview()">
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label>Category *</label>
@@ -212,197 +128,227 @@
           <input type="text" id="keyword" placeholder="e.g. AI writing tools">
         </div>
       </div>
-
       <div class="form-group">
         <label>Short excerpt (shown on homepage) *</label>
-        <textarea id="excerpt" rows="2" placeholder="One or two sentences summarising what the article covers."></textarea>
+        <textarea id="excerpt" rows="2" placeholder="One or two sentences summarising the article."></textarea>
       </div>
-
       <div class="form-group">
         <label>Meta description (for Google, max 155 chars)</label>
         <textarea id="metaDesc" rows="2" placeholder="Describe the article for search engines." oninput="updatePreview()"></textarea>
         <div class="char-count" id="metaCount">0 / 155</div>
       </div>
-
-      <div class="form-group content-area">
-        <label>Article content — paste AI-generated article here *</label>
-        <div class="paste-zone" id="content" contenteditable="true"
-          data-placeholder="Paste your full article here. Plain text or basic HTML both work."></div>
+      <div class="form-group">
+        <label>Article content — paste your full article here *</label>
+        <div class="paste-zone" id="content" contenteditable="true" data-placeholder="Paste your AI-generated article here."></div>
       </div>
-
       <div class="seo-preview">
-        <div class="seo-preview-label">Google search preview</div>
-        <div class="seo-url" id="previewUrl">yourdomain.com/articles/article-slug</div>
-        <div class="seo-title-preview" id="previewTitle">Your article title will appear here</div>
-        <div class="seo-desc-preview" id="previewDesc">Your meta description will appear here.</div>
+        <div class="seo-label">Google search preview</div>
+        <div class="seo-url" id="previewUrl">saieraini.github.io/200m/articles/article-slug.html</div>
+        <div class="seo-title" id="previewTitle">Your article title</div>
+        <div class="seo-desc" id="previewDesc">Your meta description.</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// --- Auth ---
-const ADMIN_PASS = localStorage.getItem('aitr_pass') || 'admin123';
+const OWNER='saieraini', REPO='200m', BRANCH='main';
+let GH_TOKEN='', articles=[], editingSlug=null;
 
-function login() {
-  const pw = document.getElementById('passwordInput').value;
-  if (pw === ADMIN_PASS) {
-    sessionStorage.setItem('aitr_auth', '1');
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminScreen').style.display = 'block';
-    loadSidebar();
-  } else {
-    document.getElementById('passwordInput').style.borderColor = '#ff4444';
-    setTimeout(() => document.getElementById('passwordInput').style.borderColor = '', 1000);
-  }
+function login(){
+  const t=document.getElementById('tokenInput').value.trim();
+  if(!t.startsWith('ghp_')&&!t.startsWith('github_pat_')){alert('Token should start with ghp_');return;}
+  GH_TOKEN=t; sessionStorage.setItem('gh_token',t);
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminScreen').style.display='block';
+  loadArticles();
+}
+function logout(){sessionStorage.removeItem('gh_token');location.reload();}
+const saved=sessionStorage.getItem('gh_token');
+if(saved){GH_TOKEN=saved;document.getElementById('loginScreen').style.display='none';document.getElementById('adminScreen').style.display='block';loadArticles();}
+
+async function ghGet(path){
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{headers:{Authorization:`token ${GH_TOKEN}`,Accept:'application/vnd.github.v3+json'}});
+  if(r.status===404)return null;
+  if(!r.ok)throw new Error(`GitHub ${r.status}`);
+  return r.json();
+}
+async function ghPut(path,content,message,sha){
+  const body={message,content:btoa(unescape(encodeURIComponent(content))),branch:BRANCH};
+  if(sha)body.sha=sha;
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{method:'PUT',headers:{Authorization:`token ${GH_TOKEN}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){const e=await r.json();throw new Error(e.message||`GitHub ${r.status}`);}
+  return r.json();
+}
+async function ghDel(path,message,sha){
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{method:'DELETE',headers:{Authorization:`token ${GH_TOKEN}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message,sha,branch:BRANCH})});
+  if(!r.ok)throw new Error(`GitHub ${r.status}`);
 }
 
-function logout() {
-  sessionStorage.removeItem('aitr_auth');
-  location.reload();
+async function loadArticles(){
+  showStatus('Loading articles...','loading');
+  try{
+    const d=await ghGet('articles-data.json');
+    articles=d?JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))))):[];
+    renderSidebar();hideStatus();
+  }catch(e){showStatus('Error: '+e.message,'error');articles=[];renderSidebar();}
 }
 
-if (sessionStorage.getItem('aitr_auth')) {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('adminScreen').style.display = 'block';
-  loadSidebar();
+function renderSidebar(){
+  document.getElementById('articleCount').textContent=articles.length;
+  const l=document.getElementById('articleList');
+  if(!articles.length){l.innerHTML='<div class="empty-sidebar">No articles yet.<br>Click "+ New article" to start.</div>';return;}
+  l.innerHTML=articles.map(a=>`<div class="article-item" id="item-${a.slug}" onclick="editArticle('${a.slug}')"><div class="article-item-title">${a.title}</div><div class="article-item-meta">${catLabel(a.category)} · ${a.date}</div></div>`).join('');
 }
 
-// --- Articles ---
-let articles = [];
-let editingId = null;
+function catLabel(c){return{writing:'✍️ Writing',coding:'💻 Coding',image:'🎨 Image',productivity:'⚡ Productivity',video:'🎬 Video',finance:'💰 Finance'}[c]||c;}
 
-function getArticles() {
-  try { return JSON.parse(localStorage.getItem('aitr_articles') || '[]'); } catch { return []; }
-}
-
-function saveArticles(arr) {
-  localStorage.setItem('aitr_articles', JSON.stringify(arr));
-}
-
-function loadSidebar() {
-  articles = getArticles();
-  document.getElementById('articleCount').textContent = articles.length;
-  const list = document.getElementById('articleList');
-  if (!articles.length) {
-    list.innerHTML = '<div class="empty-sidebar">No articles yet.<br>Click "+ New article" to start.</div>';
-    return;
-  }
-  list.innerHTML = articles.map(a => `
-    <div class="article-item" id="item-${a.id}" onclick="editArticle('${a.id}')">
-      <div class="article-item-title">${a.title}</div>
-      <div class="article-item-meta">${categoryLabel(a.category)} · ${a.date}</div>
-    </div>
-  `).join('');
-}
-
-function categoryLabel(cat) {
-  const m = { writing:'✍️ Writing', coding:'💻 Coding', image:'🎨 Image', productivity:'⚡ Productivity', video:'🎬 Video', finance:'💰 Finance' };
-  return m[cat] || cat;
-}
-
-function newArticle() {
-  editingId = null;
-  document.getElementById('editorHeading').textContent = 'New Article';
-  document.getElementById('deleteBtn').style.display = 'none';
-  ['title','keyword','excerpt','metaDesc'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('content').textContent = '';
-  document.getElementById('category').value = 'writing';
-  updateSlugAndPreview();
-  document.querySelectorAll('.article-item').forEach(el => el.classList.remove('active'));
-}
-
-function editArticle(id) {
-  articles = getArticles();
-  const a = articles.find(x => x.id === id);
-  if (!a) return;
-  editingId = id;
-  document.getElementById('editorHeading').textContent = 'Edit Article';
-  document.getElementById('deleteBtn').style.display = '';
-  document.getElementById('title').value = a.title;
-  document.getElementById('category').value = a.category;
-  document.getElementById('keyword').value = a.keyword || '';
-  document.getElementById('excerpt').value = a.excerpt;
-  document.getElementById('metaDesc').value = a.metaDesc || '';
-  document.getElementById('content').textContent = a.content;
-  updateSlugAndPreview();
-  document.querySelectorAll('.article-item').forEach(el => el.classList.remove('active'));
-  document.getElementById('item-' + id)?.classList.add('active');
-}
-
-function saveArticle() {
-  const title = document.getElementById('title').value.trim();
-  const excerpt = document.getElementById('excerpt').value.trim();
-  const content = document.getElementById('content').textContent.trim();
-  if (!title || !excerpt || !content) {
-    showStatus('Please fill in title, excerpt, and content.', true); return;
-  }
-  articles = getArticles();
-  const now = new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
-  const slug = toSlug(title);
-  const article = {
-    id: editingId || Date.now().toString(),
-    title, slug,
-    category: document.getElementById('category').value,
-    keyword: document.getElementById('keyword').value.trim(),
-    excerpt,
-    metaDesc: document.getElementById('metaDesc').value.trim(),
-    content,
-    date: editingId ? (articles.find(a=>a.id===editingId)?.date || now) : now,
-    updated: now
-  };
-  if (editingId) {
-    const idx = articles.findIndex(a => a.id === editingId);
-    articles[idx] = article;
-  } else {
-    articles.unshift(article);
-    editingId = article.id;
-  }
-  saveArticles(articles);
-  loadSidebar();
-  showStatus(`✓ Article published: "${title}"`);
-  document.getElementById('deleteBtn').style.display = '';
-  document.getElementById('editorHeading').textContent = 'Edit Article';
-}
-
-function deleteArticle() {
-  if (!editingId) return;
-  if (!confirm('Delete this article? This cannot be undone.')) return;
-  articles = getArticles().filter(a => a.id !== editingId);
-  saveArticles(articles);
-  newArticle();
-  loadSidebar();
-  showStatus('Article deleted.');
-}
-
-function showStatus(msg, isError=false) {
-  const bar = document.getElementById('statusBar');
-  bar.textContent = msg;
-  bar.className = 'status-bar' + (isError ? ' error' : '');
-  bar.style.display = 'block';
-  setTimeout(() => bar.style.display = 'none', 4000);
-}
-
-function toSlug(str) {
-  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
-function updateSlugAndPreview() {
+function newArticle(){
+  editingSlug=null;
+  document.getElementById('editorHeading').textContent='New Article';
+  document.getElementById('deleteBtn').style.display='none';
+  ['title','keyword','excerpt','metaDesc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('content').textContent='';
+  document.getElementById('category').value='writing';
   updatePreview();
+  document.querySelectorAll('.article-item').forEach(el=>el.classList.remove('active'));
 }
 
-function updatePreview() {
-  const title = document.getElementById('title').value.trim() || 'Your article title';
-  const desc = document.getElementById('metaDesc').value.trim() || 'Your meta description will appear here.';
-  const slug = toSlug(title) || 'article-slug';
-  document.getElementById('previewUrl').textContent = 'yourdomain.com/articles/' + slug;
-  document.getElementById('previewTitle').textContent = title.length > 60 ? title.slice(0,57)+'...' : title;
-  document.getElementById('previewDesc').textContent = desc.length > 155 ? desc.slice(0,152)+'...' : desc;
-  document.getElementById('metaCount').textContent = document.getElementById('metaDesc').value.length + ' / 155';
+async function editArticle(slug){
+  showStatus('Loading...','loading');
+  try{
+    const a=articles.find(x=>x.slug===slug);if(!a)return;
+    const d=await ghGet(`articles/${slug}.html`);
+    if(!d){showStatus('Could not load article.','error');return;}
+    const html=decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
+    editingSlug=slug;
+    document.getElementById('editorHeading').textContent='Edit Article';
+    document.getElementById('deleteBtn').style.display='';
+    document.getElementById('title').value=a.title;
+    document.getElementById('category').value=a.category;
+    document.getElementById('keyword').value=a.keyword||'';
+    document.getElementById('excerpt').value=a.excerpt;
+    document.getElementById('metaDesc').value=a.metaDesc||'';
+    const m=html.match(/id="article-body"[^>]*>([\s\S]*?)<\/div>/);
+    document.getElementById('content').textContent=m?m[1].replace(/<p>/g,'').replace(/<\/p>/g,'\n').trim():'';
+    updatePreview();
+    document.querySelectorAll('.article-item').forEach(el=>el.classList.remove('active'));
+    document.getElementById('item-'+slug)?.classList.add('active');
+    hideStatus();
+  }catch(e){showStatus('Error: '+e.message,'error');}
 }
 
-document.getElementById('metaDesc')?.addEventListener('input', updatePreview);
-document.getElementById('title')?.addEventListener('input', updatePreview);
+async function saveArticle(){
+  const title=document.getElementById('title').value.trim();
+  const excerpt=document.getElementById('excerpt').value.trim();
+  const content=document.getElementById('content').textContent.trim();
+  if(!title||!excerpt||!content){showStatus('Please fill in title, excerpt, and content.','error');return;}
+  const btn=document.getElementById('publishBtn');
+  btn.disabled=true;btn.textContent='Publishing...';
+  showStatus('Saving to GitHub — this takes about 10 seconds...','loading');
+  try{
+    const slug=editingSlug||toSlug(title);
+    const now=new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+    const category=document.getElementById('category').value;
+    const keyword=document.getElementById('keyword').value.trim();
+    const metaDesc=document.getElementById('metaDesc').value.trim();
+    const articleHTML=buildPage({title,slug,category,keyword,excerpt,metaDesc,content,date:now});
+    const ef=await ghGet(`articles/${slug}.html`);
+    await ghPut(`articles/${slug}.html`,articleHTML,`${editingSlug?'Update':'Add'} article: ${title}`,ef?.sha);
+    const ei=articles.findIndex(a=>a.slug===slug);
+    const meta={title,slug,category,keyword,excerpt,metaDesc,date:editingSlug?(articles.find(a=>a.slug===slug)?.date||now):now,updated:now};
+    if(ei>=0)articles[ei]=meta;else articles.unshift(meta);
+    const ed=await ghGet('articles-data.json');
+    await ghPut('articles-data.json',JSON.stringify(articles,null,2),'Update articles index',ed?.sha);
+    editingSlug=slug;
+    renderSidebar();
+    document.getElementById('editorHeading').textContent='Edit Article';
+    document.getElementById('deleteBtn').style.display='';
+    document.querySelectorAll('.article-item').forEach(el=>el.classList.remove('active'));
+    document.getElementById('item-'+slug)?.classList.add('active');
+    showStatus('✓ Published! Live in ~1 minute at: saieraini.github.io/200m/articles/'+slug+'.html','success');
+  }catch(e){showStatus('Error: '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent='Publish →';}
+}
+
+async function deleteArticle(){
+  if(!editingSlug||!confirm('Delete this article permanently?'))return;
+  showStatus('Deleting...','loading');
+  try{
+    const f=await ghGet(`articles/${editingSlug}.html`);
+    if(f)await ghDel(`articles/${editingSlug}.html`,`Delete: ${editingSlug}`,f.sha);
+    articles=articles.filter(a=>a.slug!==editingSlug);
+    const ed=await ghGet('articles-data.json');
+    await ghPut('articles-data.json',JSON.stringify(articles,null,2),'Update articles index',ed?.sha);
+    newArticle();renderSidebar();
+    showStatus('Article deleted.','success');
+  }catch(e){showStatus('Error: '+e.message,'error');}
+}
+
+function buildPage({title,slug,category,keyword,excerpt,metaDesc,content,date}){
+  const paras=content.split('\n').filter(p=>p.trim()).map(p=>`<p>${p.trim()}</p>`).join('\n');
+  return`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title} — AIToolsReview</title>
+<meta name="description" content="${metaDesc||excerpt}">
+${keyword?`<meta name="keywords" content="${keyword}">`:''}
+<link rel="canonical" href="https://saieraini.github.io/200m/articles/${slug}.html">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--white:#f5f5f0;--accent:#00e5a0;--gray:#1a1a1a;--gray3:#888;--text:#d0d0c8;--border:#222;--card-bg:#111;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.8;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);z-index:100;}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--white);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-back{color:var(--gray3);text-decoration:none;font-size:14px;}
+.nav-back:hover{color:var(--white);}
+.wrap{max-width:720px;margin:0 auto;padding:60px 40px;}
+.art-cat{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:20px;}
+.art-meta{font-size:13px;color:var(--gray3);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+#article-body p{margin-bottom:20px;font-size:17px;}
+#article-body h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white);margin:40px 0 16px;}
+#article-body h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--white);margin:28px 0 12px;}
+#article-body ul,#article-body ol{margin:0 0 20px 24px;}
+#article-body li{margin-bottom:8px;font-size:17px;}
+#article-body strong{color:var(--white);font-weight:500;}
+.ad-slot{background:var(--card-bg);border:1px dashed var(--border);border-radius:12px;text-align:center;padding:32px;color:#444;font-size:13px;margin:40px 0;}
+.disclaimer{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:48px;font-size:13px;color:var(--gray3);line-height:1.6;}
+footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;font-size:13px;color:var(--gray3);}
+@media(max-width:600px){nav,footer{padding:16px 20px;}.wrap{padding:40px 20px;}}
+</style>
+</head>
+<body>
+<nav><a class="nav-logo" href="/200m/">AI<span>Tools</span>Review</a><a class="nav-back" href="/200m/">← Back to all reviews</a></nav>
+<div class="wrap">
+<div class="art-cat">${catLabel(category)}</div>
+<h1>${title}</h1>
+<div class="art-meta">Published ${date} · AIToolsReview</div>
+<div class="ad-slot">📢 Ad space — place your Google AdSense code here</div>
+<div id="article-body">
+${paras}
+</div>
+<div class="disclaimer"><strong style="color:var(--white)">Disclaimer:</strong> This article is for informational purposes only. Product features, pricing, and availability may change. Always verify details directly with the provider.</div>
+</div>
+<footer>© ${new Date().getFullYear()} AIToolsReview · <a href="/200m/privacy.html" style="color:var(--gray3)">Privacy</a> · <a href="/200m/disclaimer.html" style="color:var(--gray3)">Disclaimer</a></footer>
+</body></html>`;
+}
+
+function toSlug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60);}
+function updatePreview(){
+  const title=document.getElementById('title').value.trim()||'Your article title';
+  const desc=document.getElementById('metaDesc').value.trim()||'Your meta description.';
+  const slug=toSlug(title)||'article-slug';
+  document.getElementById('previewUrl').textContent=`saieraini.github.io/200m/articles/${slug}.html`;
+  document.getElementById('previewTitle').textContent=title.length>60?title.slice(0,57)+'...':title;
+  document.getElementById('previewDesc').textContent=desc.length>155?desc.slice(0,152)+'...':desc;
+  document.getElementById('metaCount').textContent=document.getElementById('metaDesc').value.length+' / 155';
+}
+function showStatus(msg,type){const b=document.getElementById('statusBar');b.textContent=msg;b.className='status-bar '+type;b.style.display='block';if(type==='success')setTimeout(hideStatus,8000);}
+function hideStatus(){document.getElementById('statusBar').style.display='none';}
 </script>
 </body>
 </html>

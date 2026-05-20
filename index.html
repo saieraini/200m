@@ -305,9 +305,14 @@ document.getElementById('year').textContent = new Date().getFullYear();
 let allArticles = [];
 let currentCategory = 'all';
 
-function loadArticles() {
+async function loadArticles() {
   try {
-    allArticles = JSON.parse(localStorage.getItem('aitr_articles') || '[]');
+    const res = await fetch('/200m/articles-data.json?nocache=' + Date.now());
+    if (res.ok) {
+      allArticles = await res.json();
+    } else {
+      allArticles = [];
+    }
   } catch(e) { allArticles = []; }
   renderArticles(allArticles);
 }
