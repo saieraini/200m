@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"The Hidden Chain of Command: How AI Agents Talk to Each Other to Run Your Business" — AIToolsReview</title>
+<meta name="description" content="Move past basic prompts. See how companies use multi-agent systems to pass work back and forth, catch mistakes, and run operations on autopilot.">
+<meta name="keywords" content="Ai agents">
+<link rel="canonical" href="https://saieraini.github.io/200m/articles/the-hidden-chain-of-command-how-ai-agents-talk-to-each-other.html">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--white:#f5f5f0;--accent:#00e5a0;--gray:#1a1a1a;--gray3:#888;--text:#d0d0c8;--border:#222;--card-bg:#111;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.8;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);z-index:100;}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--white);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-back{color:var(--gray3);text-decoration:none;font-size:14px;}
+.nav-back:hover{color:var(--white);}
+.wrap{max-width:720px;margin:0 auto;padding:60px 40px;}
+.art-cat{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:20px;}
+.art-meta{font-size:13px;color:var(--gray3);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+#article-body p{margin-bottom:20px;font-size:17px;}
+#article-body h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white);margin:40px 0 16px;}
+#article-body h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--white);margin:28px 0 12px;}
+#article-body ul,#article-body ol{margin:0 0 20px 24px;}
+#article-body li{margin-bottom:8px;font-size:17px;}
+#article-body strong{color:var(--white);font-weight:500;}
+.ad-slot{background:var(--card-bg);border:1px dashed var(--border);border-radius:12px;text-align:center;padding:32px;color:#444;font-size:13px;margin:40px 0;}
+.disclaimer{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:48px;font-size:13px;color:var(--gray3);line-height:1.6;}
+footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;font-size:13px;color:var(--gray3);}
+@media(max-width:600px){nav,footer{padding:16px 20px;}.wrap{padding:40px 20px;}}
+</style>
+</head>
+<body>
+<nav><a class="nav-logo" href="/200m/">AI<span>Tools</span>Review</a><a class="nav-back" href="/200m/">← Back to all reviews</a></nav>
+<div class="wrap">
+<div class="art-cat">⚡ Productivity</div>
+<h1>"The Hidden Chain of Command: How AI Agents Talk to Each Other to Run Your Business"</h1>
+<div class="art-meta">Published May 20, 2026 · AIToolsReview</div>
+<div class="ad-slot">📢 Ad space — place your Google AdSense code here</div>
+<div id="article-body">
+<p>The Hidden Chain of Command: How AI Agents Talk to Each Other to Run Your Business</p>
+<p>Most people still picture AI as a single, tireless assistant — one smart model you prompt, and it answers. That picture is already out of date.</p>
+<p>The systems quietly running inside forward-looking companies today look less like a lone assistant and more like a fully staffed operations team: one agent that plans, another that executes, a third that checks the work, and a supervisor routing tasks between all of them. None of it requires a human in the loop — unless you want one.</p>
+<p>This is the architecture behind multi-agent systems (MAS), and it's not a research prototype anymore. It's in production. Right now.</p>
+<p>Why One Agent Isn't Enough</p>
+<p>Here's the core problem: a single AI model asked to do something genuinely complex — say, research ten competitors, summarize their pricing, write a comparison report, and send it to your Slack channel — tends to lose context, make confident errors, and slow down as the task grows. It's doing everything serially, in one long chain of thought.</p>
+<p>Multi-agent systems solve this the same way a competent manager does: break the job into roles, assign each role to a specialist, and coordinate the hand-offs.</p>
+<p>The underlying insight is simple but powerful. Specialized agents outperform generalist ones on the tasks they're built for, and they can work in parallel. Instead of one agent running a four-hour workflow from start to finish, four agents each run a one-hour piece simultaneously — and then pass their outputs upstream.</p>
+<p>Getting those hand-offs right is the hard part. That's where the architecture gets interesting.</p>
+<p>The Three-Layer Model: Manus Gets Explicit About It</p>
+<p>Of the platforms doing this publicly, Manus — the autonomous agent built by Chinese startup Monica.im and launched in early 2025 — is the most transparent about its internal structure.</p>
+<p>Manus runs on a three-agent architecture:</p>
+<p>The Planner Agent receives a user's goal and breaks it into a sequenced set of sub-tasks. It doesn't execute anything — its only job is strategy.</p>
+<p>The Execution Agent takes those sub-tasks and acts on them: browsing the web, writing code, calling APIs, generating documents.</p>
+<p>The Verification Agent reviews the outputs for accuracy and coherence before anything is delivered to the user.</p>
+<p>Think of it as the classic management layer: strategist, doer, quality control. All three run inside a cloud-based sandbox, which means the whole operation happens asynchronously. You can close your laptop, and the agents keep working.</p>
+<p>This separation of concerns isn't just elegant design — it's why Manus outperformed OpenAI's Deep Research agent on the GAIA benchmark. Tasks that would overwhelm a single model can be decomposed and handled in parallel, reducing both the chance of error and the time to completion.</p>
+<p>The practical payoff is tangible: give Manus a prompt like "build a competitive analysis for [company]," and it spins up agents to handle research, feature comparison, pricing analysis, and report generation — then stitches the outputs into a single deliverable.</p>
+<p>How Zapier Agents Handle the Hand-Off Problem</p>
+<p>Zapier Agents take a different structural approach — one built for the reality that most businesses already have a sprawling tech stack and need their AI to work across all of it.</p>
+<p>Zapier's model is built around a router-to-specialist pattern. A trigger fires (an incoming email, a form submission, a Slack message), which activates a router agent. That router reads the context and decides which specialist agent to hand the task to. Each specialist has its own instruction set, its own data access, and its own tool permissions.</p>
+<p>Crucially, permissions are deliberate and tiered. Only specific agents — usually the ones that run infrequently — get access to high-risk actions like deleting records or modifying accounts. The agents that run constantly and handle routine work operate with tighter constraints. This reduces the blast radius if something goes wrong.</p>
+<p>When you need to chain agents together, Zapier gives you two paths: build a Zap where multiple agents appear as sequential steps, or instruct one agent to call another directly from within its prompt. The result is a branching, conditional workflow that can scale from simple to genuinely complex without rewriting everything from scratch.</p>
+<p>The integration footprint here is a genuine differentiator. Zapier Agents can coordinate tasks across more than 8,000 connected apps — pulling CRM data from Salesforce, sending updates to Slack, updating rows in Airtable — all through a unified orchestration layer. One real-world deployment at a SaaStr-documented company runs over 1,000 Zapier actions per day, with 20-plus agents passing context through webhooks and Google Sheets as a live coordination backbone.</p>
+<p>Lindy's "Agent Societies": The Next Step</p>
+<p>Lindy sits somewhere between the two. It's a no-code agent builder that lets you design multi-step automations combining LLM reasoning, app integrations, voice, email, and data retrieval — all on a single visual canvas.</p>
+<p>What sets Lindy apart in the MAS conversation is where it's heading. The company has publicly signaled development of what it calls "agent societies" — a coordination layer where multiple Lindy agents don't just hand off tasks, but actively negotiate and collaborate on shared goals. Think less assembly line, more org chart.</p>
+<p>The underlying communication model already supports this direction. Lindy agents maintain context through message-passing and shared knowledge bases, which means one agent's output becomes another agent's input without the user needing to manually pipe data between them. Agents can reason about when to escalate, when to ask for human approval, and when to proceed autonomously — a level of judgment that pure trigger-based automation can't replicate.</p>
+<p>For teams running lean and non-technical, this is a meaningful distinction. You're not configuring a flowchart. You're defining a role, handing the agent a goal, and letting it figure out the sequencing.</p>
+<p>What This Architecture Actually Changes</p>
+<p>The shift from single-agent to multi-agent isn't just about speed or scale. It changes what kinds of work AI can reliably own.</p>
+<p>A single agent handed a complex task will often produce a plausible-sounding result that falls apart under scrutiny. Add a verification layer, specialize the execution, and give each agent narrowly scoped permissions, and the output quality improves measurably — because the system is checking itself.</p>
+<p>The deeper implication is organizational. When agents can hand work to other agents, route decisions based on context, and operate for hours without human input, the bottleneck in a workflow is no longer the AI's capability. It's the quality of the instructions you wrote at the start.</p>
+<p>That's a different kind of leverage than most people expected from AI — and it's available right now, on platforms designed to be set up without a single line of code.</p>
+<p>The Takeaway</p>
+<p>Multi-agent systems have crossed the threshold from interesting to operational. The platforms leading this shift — Manus, Zapier Agents, Lindy — each take a different approach to the same underlying problem: how do you get AI agents to collaborate reliably, at scale, on work that actually matters?</p>
+<p>The answer, it turns out, isn't a smarter single model. It's a better org chart.</p>
+<p>The companies that understand this architecture — who controls what, how context passes between agents, where human oversight fits — are building workflows their competitors can't easily replicate. The ones still thinking in terms of prompts and single-model chatbots are already a generation behind.</p>
+</div>
+<div class="disclaimer"><strong style="color:var(--white)">Disclaimer:</strong> This article is for informational purposes only. Product features, pricing, and availability may change. Always verify details directly with the provider.</div>
+</div>
+<footer>© 2026 AIToolsReview · <a href="/200m/privacy.html" style="color:var(--gray3)">Privacy</a> · <a href="/200m/disclaimer.html" style="color:var(--gray3)">Disclaimer</a></footer>
+</body></html>
